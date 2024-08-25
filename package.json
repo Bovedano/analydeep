@@ -53,6 +53,6 @@
     "typescript": "^5.5.4"
   },
   "bin": {
-    "analydep": "./dist/index.js"
+    "analydep": "./cli.js"
   }
 }
