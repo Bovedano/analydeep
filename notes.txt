@@ -1,0 +1,2 @@
+Verificar ficheros del paquete
+npm pack --dry-run
