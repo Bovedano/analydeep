@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -51,5 +51,8 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.7.0",
     "typescript": "^5.5.4"
+  },
+  "bin": {
+    "analydep": "./src/index.js"
   }
 }
