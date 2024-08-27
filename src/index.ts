@@ -1,10 +1,14 @@
 import { analyzer } from "./analizers/obsoletes";
 import { AnalizerInputData, AnalyzerFunction } from "./model";
-import { getPath } from "./utils/path";
+import { getPath }
+  from "./utils/path";
+import { printHeaderMessage } from "./utils/print";
 
 const clc = require('cli-color');
 
-process.stdout.write(clc.erase.screen);
+process.stdout.write(clc.reset);
+
+printHeaderMessage();
 
 export const init = async () => {
   try {

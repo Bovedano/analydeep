@@ -1,17 +1,25 @@
 import { AnalizerInputData, AnalizerReturnData, AnalyzerFunction } from "../model";
+//import { getDepTree } from "../utils/dependencyfinder";
 import { printError, printTitle } from "../utils/print";
 
 const madge = require('madge');
 
 export const analyzer: AnalyzerFunction = async (data: AnalizerInputData): Promise<AnalizerReturnData> => {
-    printTitle('Obsolete components');
-
+    //getDepTree(data.path);
     try {
         await madge(data.path, {
-            fileExtensions: "js, jsx, ts, tsx"
+            fileExtensions: "js, jsx, ts, tsx",
+            compilerOptions: {
+                "module": "commonjs",
+                "allowJs": true
+            }
         }).then((res: any) => {
-            analyzeDeps(res.obj())
+            printTitle('Obsolete components');
+
+            analyzeDeps(data, res.obj())
+            console.log(res.orphans().length)
         });
+
         return {
             errors: 0
         };
@@ -24,15 +32,18 @@ export const analyzer: AnalyzerFunction = async (data: AnalizerInputData): Promi
 }
 
 
-const analyzeDeps = (deps: object) => {
+const analyzeDeps = (_data: AnalizerInputData, deps: object) => {
+    let obsoletes = 0;
     Object.keys(deps).forEach(dep => {
 
         if (findInDeps(deps, dep)) {
             //console.log("DEP OK -> " + dep)
         } else {
+            obsoletes = obsoletes + 1;
             printError(dep)
         }
     })
+    printError("Obsoletes: " + obsoletes)
 }
 
 const findInDeps = (deps: object, depToFind: string): boolean => {
